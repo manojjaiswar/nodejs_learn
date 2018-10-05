@@ -1,56 +1,75 @@
 <%- include partials/header %>
-    <div class="container">
-        <div class="col-md-6 col-md-offset-3">
-			<br />
-			<h2> User Registration</h2>
-			<br />
-			<% if (message.length > 0) { %>
-                <div class="alert alert-danger">
-                    <%= message %>
-                </div>
-            <% } %>
+<div class="container">
+	<div class="col-md-6 col-md-offset-3">
+		<br />
+		<h2> User Registration</h2>
+		<br />
+		<% if (message.length > 0) { %>
+			<div class="alert alert-danger alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<%= message %>
+			  </div>
+		<% } %>
 
-			<!-- LOGIN FORM -->
-			<form action="/signup" method="post">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Username" name="username">
+		<!-- LOGIN FORM -->
+		<form action="/signup" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Username" name="username">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="First Name" name="firstname">
+			</div>
+			<div class="form-group">
+
+				<input type="text" class="form-control" placeholder="Last Name" name="lastname">
+			</div>
+			<div class="form-group">
+
+				<input type="password" class="form-control" placeholder="Password" name="password">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword">
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" placeholder="Email" name="email">
+			</div>
+			<div class="form-group">
+				<input type="file" class="form-control" name="uploadfile" accept="">
+			</div>
+			
+			<!-- <div class="form-group">
+				<div class="main-img-preview">
+					<img class="thumbnail img-preview" src="/images/uploads/profile_pic.png" title="Preview Logo" style="padding-bottom:10px; width: 80px;">
 				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="First Name" name="firstname">
+				<div class="input-group">
+					<input id="fakeUploadLogo" class="form-control fake-shadow" placeholder="Choose File" disabled="disabled">
+					<div class="input-group-btn">
+						<div class="fileUpload btn btn-danger fake-shadow">
+							<span><i class="glyphicon glyphicon-upload"></i> Upload Logo</span>
+							<input id="logo-id" name="logo" type="file" class="attachment_upload">
+						</div>
+					</div>
 				</div>
-				<div class="form-group">
-					
-					<input type="text" class="form-control" placeholder="Last Name" name="lastname">
-				</div>
-				<div class="form-group">
-					
-					<input type="password" class="form-control" placeholder="Password" name="password">
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword">
-				</div>
-				<div class="form-group">
-					<input type="email" class="form-control" placeholder="Email" name="email">
-				</div>
-				<div class=" form-check-inline form-group">
-					<div class="form-check">
+			</div> -->
+			<div class=" form-check-inline form-group">
+				<div class="form-check">
 					<label class="form-check-label">
 						<input type="radio" class="form-check-input" name="gender" value="Male">Male
 					</label>
-					</div>
-					<div class="form-check">
+				</div>
+				<div class="form-check">
 					<label class="form-check-label">
 						<input type="radio" class="form-check-input" name="gender" value="Female">Female
 					</label>
-					</div>
 				</div>
-				<div class="form-group">
-					<label class="checkbox-inline">
+			</div>
+			<div class="form-group">
+				<label class="checkbox-inline">
 					<input name="agreement" type="checkbox" id="agreement"> <a href="#"> I accept Terms & Conditions</a></label>
-				</div>
-				<button type="submit" class="btn btn-success">Signup</button>
-			</form>
-        </div>
-    </div>
+			</div>
+			<button type="submit" class="btn btn-success">Signup</button>
+		</form>
+	</div>
+</div>
 
 <%- include partials/footer %>

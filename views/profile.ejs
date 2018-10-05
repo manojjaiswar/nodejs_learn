@@ -13,6 +13,7 @@
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
                             <th scope="col">Email</th>
+                            <th scope="col">User Pic</th>
                             <th scope="col">Gender</th>
                             <th scope="col">Terms & Con.</th>
 							<th scope="col">Date</th>
@@ -25,6 +26,7 @@
                         <td><%= user.firstname %></td>
                         <td><%= user.lastname %></td>
                         <td><%= user.email %></td>
+                        <td><img style="width:100%;" src="./Images/<%= user.profile_pic %>" /></td>
                         <td><%= user.gender %></td>
                         <td><%= user.agreement %></td>
                         <td><%= moment(user.created_at).format( 'MMM-DD-YYYY HH:MM:ss') %></td>

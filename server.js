@@ -3,9 +3,11 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var fs = require('fs');
 var app = express();
 var nodemailer = require('nodemailer');
-var path = require('path')
+
+var fileUpload = require('express-fileupload');
 var port = process.env.PORT || 8080;
 
 var passport = require('passport');
@@ -13,6 +15,7 @@ var flash = require('connect-flash');
 
 require('./config/passport.js')(passport);
 var mailsending = require('./config/mailsending.js');
+var fileupload_v1 = require('./app/fileupload.js');
 
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
@@ -20,8 +23,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+
 app.set('view engine', 'ejs'); // set up ejs for templating
 app.use(express.static(__dirname + '/public'));
+
+// app.use('fs');
 
 // session store on database--------------------------------------------
 var MySQLStore = require('express-mysql-session')(session);
@@ -39,13 +45,18 @@ app.use(session({
     saveUninitialized: false
 })); // session secret
 
+app.use(fileUpload());
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-app.use('/', mailsending)
+app.use('/', mailsending);
+app.use('/', fileupload_v1);
+
+
 
 // launch ======================================================================
 app.listen(port);

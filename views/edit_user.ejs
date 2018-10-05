@@ -5,6 +5,7 @@
 		<h2> Edit User</h2>
 		<br />
 		<form action="edit_user/<%= user.id %>" method="post">
+			<input type="hidden" class="form-control" name="id" value="<%= user[0].id %>">
 			<div class="form-group">
 				<label for="email"><strong>Username</strong></label>
 				<input type="text" class="form-control" name="username" value="<%= user[0].username %>">
@@ -25,24 +26,24 @@
 				<% if(user[0].gender == 'Male'){ %>
 				<div class="form-check">
 					<label class="form-check-label">
-						<input type="radio" class="form-check-input" name="gender" value="Male" checked>Male
+						<input type="radio" class="form-check-input" name="<%= user[0].gender %>" value="Male" checked>Male
 					</label>
 				</div>
 				<div class="form-check">
 					<label class="form-check-label">
-						<input type="radio" class="form-check-input" name="gender" value="Female">Female
+						<input type="radio" class="form-check-input" name="<%= user[0].gender %>" value="Female">Female
 					</label>
 				</div>
 				<% } %>
 				<% if(user[0].gender == 'Female'){ %>
 				<div class="form-check">
 					<label class="form-check-label">
-						<input type="radio" class="form-check-input" name="gender" value="Male">Male
+						<input type="radio" class="form-check-input" name="<%= user[0].gender %>" value="Male">Male
 					</label>
 				</div>
 				<div class="form-check">
 					<label class="form-check-label">
-						<input type="radio" class="form-check-input" name="gender" value="Female" checked>Female
+						<input type="radio" class="form-check-input" name="<%= user[0].gender %>" value="<%= user[0].gender %>" checked>Female
 					</label>
 				</div>
 				<% } %>
@@ -50,19 +51,20 @@
 
 			<% if(user[0].agreement > 0){ %>
 			<div class="form-group">
-				<input type="checkbox" name="<%= user[0].agreement %>" checked />
+				<input type="checkbox" name="<%= user[0].agreement %>" id="<%= user[0].agreement %>" checked />
 				<label>
 					<a href="#">I accept Terms & Conditions</a>
 				</label>
 			</div>
 			<% } else{ %>
 			<div class="form-group">
-				<input type="checkbox" name="<%= user[0].agreement %>" />
+				<input type="checkbox" name="<%= user[0].agreement %>" id="<%= user[0].agreement %>" />
 				<label>
 					<a href="#">I accept Terms & Conditions</a>
 				</label>
 			</div>
 			<% } %>
+			<button type="submit" class="btn btn-success">Update</button>
 		</form>
 	</div>
 </div>
