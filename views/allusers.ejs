@@ -2,14 +2,28 @@
     <div class="container">
         <br />
         <h2>All Users</h2>
-        <br />
-        <% if (message.length > 0) { %>
-            <div class="alert alert-danger">
-                <%= message %>
-            </div>
-        <% } %>
+        <br />          
+        
         <div class="row">
             <div class="col-sm-12">
+            
+                <% if (message.length > 0) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Field </strong> <%= message %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %>
+                <% if (deleteMessage.length > 0) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Delete </strong> <%= deleteMessage %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %>
+
             	<table class="table table-bordered">
 					<thead>
 						<tr>
@@ -36,8 +50,8 @@
                             <td><%= user.agreement %></td>
                             <td><%= moment(user.created_at).format( 'MMM-DD-YYYY HH:MM:ss') %></td>
                             <td>
-                                <a href="/edit_user/<%= user.id %>" class="btn btn-success">Edit</a>
-								<a href="/delete/<%= user.id %>" class="btn btn-danger">Delete</a>
+                                <a href="/edit_user/<%= user.id%>" class="btn btn-success">Edit</a>
+								<a href="/delete_user/<%= user.id %>" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                         

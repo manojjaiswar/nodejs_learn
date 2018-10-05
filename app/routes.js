@@ -11,16 +11,17 @@ var dateFormat = require('dateformat');
 var connection = mysql.createConnection(dbconfig.connection);
 // var bcrypt = require('bcrypt-nodejs');
 
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
+
 connection.query('USE ' + dbconfig.database);
 
-module.exports = function (app, passport, maile_sending) {
-    app.get('/', function (req, res) {
-        res.render('index.ejs', { title: 'Home', message: req.flash('success') });
-    });
+module.exports = function (app, passport) {
 
-    // app.post('/', function (req, res) {
-    //     res.render('index.ejs', { title: 'Home', message: req.flash('success') });
-    // });
+    app.get('/', function (req, res) {
+        res.render('index.ejs', { title: 'Home', message: req.flash('updateSuccess') });
+    });
 
     app.get('/login', function (req, res) {
         res.render('login.ejs', { title: 'Login', message: req.flash('loginMessage') });
@@ -57,14 +58,21 @@ module.exports = function (app, passport, maile_sending) {
             moment: moment
         });
     });
+    app.get('/allusers', function (req, res) {
+        connection.query("SELECT * FROM users", function (err, result, fields) {
+            if (err) {
+                throw err;
+            } else {
+                res.render('allusers', {
+                    users: result,
+                    title: 'All Users',
+                    moment: moment,
+                    message: req.flash('updateSuccess'),
+                    deleteMessage: req.flash('deleteMessage')
+                });
+            }
 
-    app.get('/edit_user/:id', (req, res) => {
-        connection.query("SELECT * FROM users WHERE id= '" + req.params.id + "'", function (err, result) {
-            res.render('edit_user.ejs', {
-                title: "Editing User ",
-                user: result
-            })
-        })
+        });
     });
 
     app.post('/edit_user/:id', (req, res) => {
@@ -86,6 +94,7 @@ module.exports = function (app, passport, maile_sending) {
             connection.query(query, function (err, result) {
                 if (err) throw err;
                 console.log(result.affectedRows + " record(s) updated");
+                req.flash('updateSuccess', 'Updated!');
                 res.redirect('/allusers');
             });
 
@@ -93,28 +102,26 @@ module.exports = function (app, passport, maile_sending) {
 
     })
 
+    app.get('/edit_user/:id', (req, res) => {
+        connection.query("SELECT * FROM users WHERE id= '" + req.params.id + "'", function (err, result) {
+            res.render('edit_user.ejs', {
+                user: result,
+                title: 'Editing User',
+            });
+        })
+    });
+
     app.get('/delete/:id', (req, res) => {
         connection.query("DELETE FROM users WHERE id='" + req.params.id + "'", function (err, result) {
             if (err) {
                 console.log(err)
             } else {
-                req.flash('deleteMessage', 'Delete Row')
-                res.redirect('/allusers', {message: req.flash('deleteMessage')});
+                req.flash('deleteMessage', 'Field!')
+                res.redirect('/allusers');
             }
         })
     });
 
-
-    app.get('/allusers', function (req, res) {
-        connection.query("SELECT * FROM users", function (err, result, fields) {
-            if (err) {
-                throw err;
-            } else {
-                res.render('allusers', { users: result, title: 'All Users', moment: moment });
-            }
-
-        });
-    });
 
     app.get('/logout', function (req, res) {
         req.logout();
